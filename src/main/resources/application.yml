@@ -2,6 +2,8 @@ server:
   port: 8085
 
 spring:
+  main:
+    web-application-type: reactive
   application:
     name: API-GATEWAY-SERVICE
   cloud:
@@ -11,10 +13,18 @@ spring:
           uri: lb://USER-SERVICE
           predicates:
             - Path=/users/**
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/auth/**
         - id: DEMO-SERVICE
           uri: lb://DEMO-SERVICE
           predicates:
             - Path=/demo/**
+
+# JWT - must match user-service for token validation
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
 
 eureka:
   client:
